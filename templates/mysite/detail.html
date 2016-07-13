@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load custom_markdown %}
+
+{% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><span class="label tag-color-4 btn">{{ object.tag }}</span></li>
+                <li>{{ object.created_at|date:'Y-m-d H:s:i' }}</li>
+                <li>{{ object.author }}</li>
+{#                <li><span class="glyphicon glyphicon-eye-open"></span>{{ object.view_times }}</li>#}
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" style="text-align: center">
+            <h3>{{ object.title }}</h3>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="row">
+        <div class="col-md-12">
+            {{ object.content|custom_markdown }}
+        </div>
+    </div>
+
+{% endblock %}

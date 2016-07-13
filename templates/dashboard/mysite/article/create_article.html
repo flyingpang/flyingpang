@@ -1,0 +1,32 @@
+{% extends 'dashboard/mysite/article/base_article.html' %}
+{% load bootstrap_tags %}
+
+{% block main %}
+    <h1>创建文章</h1>
+    <div class="row">
+        <div class="col-md-8">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">提示</h3>
+                        </div>
+                        <div class="card-block">
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <form action="" method="post" enctype="multipart/form-data" class="form-vertical">
+                {% csrf_token %}
+                {{ form|as_bootstrap }}
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-4"></div>
+    </div>
+{% endblock %}
+

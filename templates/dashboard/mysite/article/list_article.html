@@ -1,0 +1,43 @@
+{% extends 'dashboard/mysite/article/base_article.html' %}
+
+{% block main %}
+    <h1>文章列表</h1>
+    <hr/>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>文章ID</th>
+                <th>文章标题</th>
+                <th>标签</th>
+                <th>创建时间</th>
+                <th>文章状态</th>
+                <th>编辑</th>
+                <th>预览</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if article_list %}
+                {% for article in article_list %}
+                    <tr id='RemovedIs{{ article.is_removed }}' >
+                        <td>{{ article.id }}</td>
+                        <td>{{ article.title }}</td>
+                        <td>{{ article.tag }}</td>
+                        <td>{{ article.created_at|date:'Y-m-d H:s:i' }}</td>
+                        <td>{{ article.get_status_display }}</td>
+                        <td><a href="{% url 'article_update_dashboard_view' article.id %}">编辑</a></td>
+                        <td><a href="{% url 'article_preview_dashboard_view' article.id %}" target="_blank">预览</a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function(){
+            $("#RemovedIsTrue").css("backgroundColor", '#CECECE');
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>flyingpang</title>
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+    <link href="/static/css/vim_theme_style.css" rel="stylesheet">
+
+    {% block head %}{% endblock %}
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="container" style="margin-bottom: 1rem">
+        <nav class="navbar navbar-dark bg-inverse">
+            <a class="navbar-brand" href="{% url 'article_list_dashboard_view' %}">后台管理</a>
+            <ul class="nav navbar-nav pull-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'tag_list_dashboard_view' %}">标签</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'article_list_dashboard_view' %}">文章</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+            {% block nav %}{% endblock %}
+        </div>
+        <div class="col-md-9">
+            {% block main %}{% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <script src="/static/js/jquery-2.1.4.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    {% block js %}{% endblock %}
+  </body>
+</html>

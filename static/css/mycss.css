@@ -1,0 +1,72 @@
+/* 首页文章卡片格式 */
+
+.article-card {
+    position: relative;
+    margin-top: 10px;
+    padding: 10px 10px 10px 10px;
+    display: block;
+    background-color: #FFF;
+    box-shadow: 0 0 20px #AAA;
+}
+
+
+/* category */
+
+.article-category {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    background-color: #D94600;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #EEE;
+}
+
+.article-category a{
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.article-category a:hover {
+    color: #4C4C4C;
+    text-decoration: none;
+}
+
+
+/* 定制普通链接的样式 */
+
+a {
+    color: #4C4C4C;
+}
+
+a:hover {
+    color: #d9534f;
+    text-decoration: none;
+}
+
+
+/* tags样式 */
+
+.tag-color-0 {
+    background-color: #FF4351;
+}
+
+.tag-color-1 {
+    background-color: #57B382;
+}
+
+.tag-color-2 {
+    background-color: #A5DE37
+}
+
+.tag-color-3 {
+    background-color: #7B72E9;
+}
+
+.tag-color-4 {
+    background-color: #1B9AF7;
+}
+
+

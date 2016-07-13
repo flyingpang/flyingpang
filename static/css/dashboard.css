@@ -1,0 +1,41 @@
+
+
+.nav-dashboard {
+    background-color: #f2f2f2;
+    color: white;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 800px;
+}
+
+.nav-dashboard a {
+    color: #4A8A4A;
+}
+
+.nav-dashboard a:hover {
+    text-decoration: none;
+}
+
+.nav-dashboard li {
+
+    margin: 10px 0 10px 20px;
+}
+
+/* login style */
+
+#auth-login {
+    max-width: 400px;
+    margin: 20px auto 20px;
+}
+
+#auth-login-form {
+    padding: 30px 20px;
+  }
+
+#auth-login-form .btn {
+    width: 48%;
+    padding: 10px;
+}
+
+
+

@@ -1,0 +1,37 @@
+{% extends 'dashboard/mysite/tag/base_tag.html' %}
+
+{% block main %}
+    <h1>文章列表</h1>
+    <hr/>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>标签ID</th>
+                <th>标签名</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if tag_list %}
+                {% for tag in tag_list %}
+                    <tr id='RemovedIs{{ tag.is_removed }}' >
+                        <td>{{ tag.id }}</td>
+                        <td>{{ tag.name }}</td>
+                        <td>{{ tag.created_at|date:'Y-m-d H:s:i' }}</td>
+                        <td><a href="{% url 'tag_update_dashboard_view' tag.id %}">编辑</a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function(){
+            $("#RemovedIsTrue").css("backgroundColor", '#CECECE');
+        });
+    </script>
+{% endblock %}

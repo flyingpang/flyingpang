@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-8">
+            {% for article in article_list %}
+                <div class="article-card" >
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="article-category btn">
+                                <a href="#" class="category-link">{{ article.get_category_display }}</a>
+                            </div>
+                            <div style="font-size: 20px">
+                                <a href="{% url 'article_detail_view' article.slug %}">{{ article.title }}</a>
+                                <span class="label tag-color-4 btn pull-right">{{ article.tag }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row card">
+                        <div class="col-md-6">
+                            <div class="card-block">
+                                {% if article.photo %}
+                                    <img src="{{ article.img_url }}" class="img-responsive" />
+                                {% else %}
+                                    <img data-src="/static/js/holder.js/100%x180/" alt="article img"/>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 card-block">
+                            {{ article.summary|truncatechars:105 }}
+                            <a class="btn btn-danger pull-right" href="{% url 'article_detail_view' article.slug %}">阅读全文</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <h3 style="text-align: center; margin-top: 20px">作者比较懒,还没有写该分类的文章哟!</h3>
+            {% endfor %}
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header card-success">
+                    <h4>热门文章</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                {% if popular_article_list %}
+                    {% for popular_article in popular_article_list %}
+                        <a href="{% url 'article_detail_view' popular_article.slug %}">
+                            <li class="list-group-item">{{ popular_article.title }}
+                                <span class="label btn btn-danger pull-right">{{ popular_article.view_times|default:0 }}</span>
+                            </li>
+                        </a>
+                    {% endfor %}
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/holder.js"></script>
+{% endblock %}

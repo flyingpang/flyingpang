@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/mycss.css" rel="stylesheet">
+    <link href="/static/css/vim_theme_style.css" rel="stylesheet">
+
+    {% block head %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+
+</head>
+<body class="full">
+    {% include 'navbar.html' %}
+    <div class="container">
+        {% block content %}{% endblock %}
+        <hr/>
+        <footer>
+            <p style="text-align: center">&copy;&nbsp;flyingpang&nbsp;&nbsp;2016</p>
+        </footer>
+
+    </div>
+
+</body>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery-2.1.4.min.js"></script>
+    {% block js %}{% endblock %}
+</html>

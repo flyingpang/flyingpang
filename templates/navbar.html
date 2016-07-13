@@ -1,0 +1,26 @@
+<div class="container" style="margin-bottom: 1rem">
+    <nav class="navbar navbar-dark bg-inverse">
+        <a class="navbar-brand" href="{% url 'index_view' %}" style="font-size: 25px">flyingpang</a>
+        <ul class="nav navbar-nav pull-right">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'article_category_view' category='read' %}">读书</a>
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link" href="{% url 'article_category_view' category='code' %}">编程</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'article_category_view' category='invest' %}">投资</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'article_category_view' category='note' %}">笔记</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about_me_view' %}">About</a>
+            </li>
+        </ul>
+{#        <form-inlin class="form-inline navbar-form pull-right hidden-sm-down">#}
+{#            <input class="form-control" type="text" placeholder="Search">#}
+{#            <button class="btn btn-success-outline" type="submit">Search</button>#}
+{#        </form-inlin>#}
+    </nav>
+</div>
