@@ -59,7 +59,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # 自定义中间件
-    'flyingpang.middleware.user_based_exception_middleware',
+    # 'flyingpang.middleware.middleware.UserBasedExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'flyingpang.urls'
@@ -146,8 +146,8 @@ STATIC_URL = '/static/'
 
 TIME_ZONE = 'Asia/Shanghai'
 
-AUTH_USER_MODEL = 'auth.User'
-# AUTH_USER_MODEL = 'myuser.MyUser'
+# AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'myuser.MyUser'
 
 # upload Image/File
 MEDIA_ROOT = BASE_DIR + '/media/'
@@ -160,6 +160,10 @@ MEDIA_URL = '/media/'
 # qiniu_secret_key = ''
 # bucket_name = ''
 # qiniu_domain = ''
+
+
+# LoginView
+LOGIN_URL = '/login/'
 
 
 try:

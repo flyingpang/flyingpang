@@ -17,6 +17,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from flyingpang.mysite.views import IndexView, ArticleDetailView, ArticleCategoryView, AboutMeView
+from flyingpang.myuser.views import UserCreateView, LoginView, LogoutView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,6 +26,9 @@ urlpatterns = [
     url(r'^article/category/(?P<category>\w+)$', ArticleCategoryView.as_view(), name='article_category_view'),
     url(r'^article/detail/(?P<slug>\w+)/$', ArticleDetailView.as_view(), name='article_detail_view'),
     url(r'^about/$', AboutMeView.as_view(), name='about_me_view'),
+    url(r'^register/$', UserCreateView.as_view(), name='user_create_view'),
+    url(r'^login/$', LoginView.as_view(), name='login_view'),
+    url(r'^logout/$', LogoutView.as_view(), name='logout_view'),
 
     # dashboard
     url(r'dashboard/', include('flyingpang.dashboard.urls')),

@@ -3,3 +3,4 @@
 *.db
 local_settings.py
 /media/
+.DS_Store

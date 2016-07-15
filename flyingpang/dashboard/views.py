@@ -1,41 +1,17 @@
 # coding: utf-8
 from cStringIO import StringIO
-import urlparse
 import uuid
-from django.contrib.auth import REDIRECT_FIELD_NAME, login
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, FormView
 from django.views.generic.edit import ModelFormMixin
 from qiniu import put_file, etag
+import qiniu
 from flyingpang import settings
 from flyingpang.dashboard.forms import CreateArticleForm, UpdateArticleForm, CreateTagForm, UpdateTagForm
 from flyingpang.mysite.models import Article, Tag
 from wand.image import Image
-
-
-class LoginView(FormView):
-
-    form_class = AuthenticationForm
-    redirect_field_name = REDIRECT_FIELD_NAME
-    template_name = 'dashboard/login.html'
-
-    # @method_decorator(csrf_protect)
-    # @method_decorator(never_cache)
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super(LoginView, self).dispatch(self, request, *args, **kwargs)
-
-    def form_valid(self, form):
-        login(self.request, form.get_user())
-        return super(LoginView, self).form_valid(form)
-
-    def get_success_url(self):
-        return reverse('article_list_dashboard_view')
+from flyingpang.myuser.models import MyUser
 
 
 class ArticleListView(ListView):
@@ -53,7 +29,7 @@ class ArticleCreateView(CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.key = unicode(uuid.uuid4().get_hex())
-        self.object.author = User.objects.get(id=1)
+        self.object.author = MyUser.objects.get(id=1)
 
         # handle uploaded image
         if self.request.FILES.get('photo'):
@@ -84,7 +60,7 @@ class ArticleCreateView(CreateView):
                 localfile = settings.BASE_DIR + self.object.photo.url
                 print localfile
 
-                key = self.object.photo.name  # 文件名
+                key = self.object.photo.name[2:]  # 文件名
                 mime_type = 'image/jpeg'  # mimeType
                 params = {'x:a': 'a'}
 
@@ -92,7 +68,7 @@ class ArticleCreateView(CreateView):
                 ret, info = put_file(token, key, localfile, mime_type=mime_type, check_crc=True)
                 assert ret['key'] == key
                 assert ret['hash'] == etag(localfile)
-                self.object.img_url = settings.qiniu_domain + self.object.photo.name[2:]
+                self.object.img_url = settings.qiniu_domain + '/' + self.object.photo.name[2:]
                 self.object.save()
 
             except ImportError:
@@ -126,12 +102,13 @@ class ArticleUpdateView(UpdateView):
             self.object.photo.name = unicode(uuid.uuid4())[:8] + u'.jpg'
             self.object.photo.file = thumb_image
             self.object.img_url = settings.MEDIA_URL + self.object.photo.name
+
+            print self.object.img_url
             # 将图片保存到本地的media中
             self.object.save()
 
             try:
                 from flyingpang.settings import qiniu_access_key, qiniu_secret_key, bucket_name
-                import qiniu
 
                 assert qiniu_access_key and qiniu_secret_key and bucket_name
                 q = qiniu.Auth(qiniu_access_key, qiniu_secret_key)
@@ -141,7 +118,7 @@ class ArticleUpdateView(UpdateView):
                 localfile = settings.BASE_DIR + self.object.photo.url
                 print localfile
 
-                key = self.object.photo.name  # 文件名
+                key = self.object.photo.name[2:]  # 文件名
                 mime_type = 'image/jpeg'  # mimeType
                 params = {'x:a': 'a'}
 
@@ -149,7 +126,11 @@ class ArticleUpdateView(UpdateView):
                 ret, info = put_file(token, key, localfile, mime_type=mime_type, check_crc=True)
                 assert ret['key'] == key
                 assert ret['hash'] == etag(localfile)
-                self.object.img_url = settings.qiniu_domain + self.object.photo.name[2:]
+                self.object.img_url = settings.qiniu_domain + "/" + self.object.photo.name[2:]
+
+                print self.object.photo.name
+                print self.object.img_url
+
                 self.object.save()
 
             except ImportError:

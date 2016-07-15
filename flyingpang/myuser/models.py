@@ -26,7 +26,7 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_supperuser(self, email, nickname, password):
+    def create_superuser(self, email, nickname, password):
         """
         Creates and saves a superuser with the given email, nickname, password.
         """
@@ -42,14 +42,22 @@ class MyUserManager(BaseUserManager):
 
 class MyUser(AbstractBaseUser):
     nickname = models.CharField(_(u'昵称'), max_length=40)
-    email = models.EmailField()
-    join_date = models.DateTimeField(_('加入日期'), auto_now_add=True)
+    email = models.EmailField(_(u'email address'), max_length=255, unique=True)
+    create_at = models.DateTimeField(_('加入日期'), auto_now_add=True)
     is_admin = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     objects = MyUserManager()
 
-    REQUIRED_FIELDS = ['nickname',]
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['nickname']
 
     def __unicode__(self):
         return self.nickname
+
+    @property
+    def is_superuser(self):
+        if self.is_active and self.is_admin:
+            return True
+        else:
+            return False
