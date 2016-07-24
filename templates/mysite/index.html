@@ -22,8 +22,10 @@
                             <div class="card-block">
                                 {% if article.img_url %}
                                     <img src="{{ article.img_url }}" class="img-responsive" />
+                                {% elif article.photo %}
+                                    <img src="{{ article.photo.url }}"/>
                                 {% else %}
-                                    <img data-src="/static/js/holder.js/100%x180/" alt="article img"/>
+                                    <img src="/static/js/holder.js/280%x180/" alt="article img" />
                                 {% endif %}
                             </div>
                         </div>

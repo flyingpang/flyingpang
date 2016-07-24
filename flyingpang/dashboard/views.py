@@ -43,33 +43,32 @@ class ArticleCreateView(CreateView):
             thumb_image = ContentFile(thumb_file.getvalue())
             self.object.photo.name = unicode(uuid.uuid4())[:8] + u'.jpg'
             self.object.photo.file = thumb_image
-            self.object.img_url = settings.MEDIA_URL + self.object.photo.name
 
             # 将图片保存到本地的media中
             self.object.save()
 
             try:
-                from flyingpang.settings import qiniu_access_key, qiniu_secret_key, bucket_name
+                from flyingpang.settings import qiniu_access_key, qiniu_secret_key, bucket_name, qiniu_domain
                 import qiniu
 
-                assert qiniu_access_key and qiniu_secret_key and bucket_name
-                q = qiniu.Auth(qiniu_access_key, qiniu_secret_key)
+                if qiniu_access_key and qiniu_secret_key and bucket_name:
+                    q = qiniu.Auth(qiniu_access_key, qiniu_secret_key)
 
-                # 上传本地文件
+                    # 上传本地文件
 
-                localfile = settings.BASE_DIR + self.object.photo.url
-                print localfile
+                    localfile = settings.BASE_DIR + self.object.photo.url
+                    print localfile
 
-                key = self.object.photo.name[2:]  # 文件名
-                mime_type = 'image/jpeg'  # mimeType
-                params = {'x:a': 'a'}
+                    key = self.object.photo.name[2:]  # 文件名
+                    mime_type = 'image/jpeg'  # mimeType
+                    params = {'x:a': 'a'}
 
-                token = q.upload_token(bucket_name, key)
-                ret, info = put_file(token, key, localfile, mime_type=mime_type, check_crc=True)
-                assert ret['key'] == key
-                assert ret['hash'] == etag(localfile)
-                self.object.img_url = settings.qiniu_domain + '/' + self.object.photo.name[2:]
-                self.object.save()
+                    token = q.upload_token(bucket_name, key)
+                    ret, info = put_file(token, key, localfile, mime_type=mime_type, check_crc=True)
+                    assert ret['key'] == key
+                    assert ret['hash'] == etag(localfile)
+                    self.object.img_url = "http://" + qiniu_domain + '/' + self.object.photo.name[2:]
+                    self.object.save()
 
             except ImportError:
                 pass
@@ -101,37 +100,32 @@ class ArticleUpdateView(UpdateView):
             thumb_image = ContentFile(thumb_file.getvalue())
             self.object.photo.name = unicode(uuid.uuid4())[:8] + u'.jpg'
             self.object.photo.file = thumb_image
-            self.object.img_url = settings.MEDIA_URL + self.object.photo.name
 
-            print self.object.img_url
             # 将图片保存到本地的media中
             self.object.save()
 
             try:
-                from flyingpang.settings import qiniu_access_key, qiniu_secret_key, bucket_name
+                from flyingpang.settings import qiniu_access_key, qiniu_secret_key, bucket_name, qiniu_domain
 
-                assert qiniu_access_key and qiniu_secret_key and bucket_name
-                q = qiniu.Auth(qiniu_access_key, qiniu_secret_key)
+                if qiniu_access_key and qiniu_secret_key and bucket_name:
+                    q = qiniu.Auth(qiniu_access_key, qiniu_secret_key)
 
-                # 上传本地文件
+                    # 上传本地文件
 
-                localfile = settings.BASE_DIR + self.object.photo.url
-                print localfile
+                    localfile = settings.BASE_DIR + self.object.photo.url
+                    print localfile
 
-                key = self.object.photo.name[2:]  # 文件名
-                mime_type = 'image/jpeg'  # mimeType
-                params = {'x:a': 'a'}
+                    key = self.object.photo.name[2:]  # 文件名
+                    mime_type = 'image/jpeg'  # mimeType
+                    params = {'x:a': 'a'}
 
-                token = q.upload_token(bucket_name, key)
-                ret, info = put_file(token, key, localfile, mime_type=mime_type, check_crc=True)
-                assert ret['key'] == key
-                assert ret['hash'] == etag(localfile)
-                self.object.img_url = settings.qiniu_domain + "/" + self.object.photo.name[2:]
+                    token = q.upload_token(bucket_name, key)
+                    ret, info = put_file(token, key, localfile, mime_type=mime_type, check_crc=True)
+                    assert ret['key'] == key
+                    assert ret['hash'] == etag(localfile)
+                    self.object.img_url = "http://" + qiniu_domain + "/" + self.object.photo.name[2:]
 
-                print self.object.photo.name
-                print self.object.img_url
-
-                self.object.save()
+                    self.object.save()
 
             except ImportError:
                 pass

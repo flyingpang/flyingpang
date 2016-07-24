@@ -1,7 +1,6 @@
 # coding: utf-8
 from django.core.cache import cache
 from django.views.generic import TemplateView, DetailView, ListView
-from flyingpang.local_settings import qiniu_domain
 from flyingpang.mysite.models import Article
 
 
@@ -15,7 +14,11 @@ class IndexView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        context['qiniu_domain'] = qiniu_domain
+        try:
+            from flyingpang.settings import qiniu_domain
+            context['qiniu_domain'] = qiniu_domain
+        except ImportError:
+            pass
         popular_article_list = Article.objects.filter(status=1, is_removed=0).order_by('-zan_times', '-view_times')[:10]
         context['popular_article_list'] = popular_article_list
         return context

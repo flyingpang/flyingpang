@@ -105,6 +105,19 @@ DATABASES = {
 }
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#         'NAME': '',                            # Or path to database file if using sqlite3.
+#         'USER': 'root',                        # Not used with sqlite3.
+#         'PASSWORD': '',                        # Not used with sqlite3.
+#         'HOST': '127.0.0.1',                   # Set to empty string for localhost. Not used with sqlite3.
+#         'PORT': '3307',                        # Set to empty string for default. Not used with sqlite3.
+#     }
+# }
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -146,7 +159,6 @@ STATIC_URL = '/static/'
 
 TIME_ZONE = 'Asia/Shanghai'
 
-# AUTH_USER_MODEL = 'auth.User'
 AUTH_USER_MODEL = 'myuser.MyUser'
 
 # upload Image/File
@@ -156,15 +168,27 @@ MEDIA_URL = '/media/'
 
 # 七牛配置, 根据是否使用七牛进行配置
 
-# qiniu_access_key = ''
-# qiniu_secret_key = ''
-# bucket_name = ''
-# qiniu_domain = ''
+qiniu_access_key = ''
+qiniu_secret_key = ''
+bucket_name = ''  # 储存空间名称
+qiniu_domain = ''  # 外链默认域名
 
+
+# load Media
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # LoginView
 LOGIN_URL = '/login/'
 
+
+# Memcached
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
 
 try:
     from local_settings import *

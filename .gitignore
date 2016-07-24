@@ -4,3 +4,4 @@
 local_settings.py
 /media/
 .DS_Store
+*_initial.py
